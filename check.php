@@ -15,13 +15,15 @@ if(isset($_POST['submit'])) {
                 $_SESSION['user'] = $row['login'];
                 $_SESSION['fname'] = $row["fullname"];
                 header('location:cabinet.php');
+              } else {
+                header('location:cabinet.php?Incorrect login or password');
               }
             }
           } else {
-            header('location:cabinet.php?error=Enter login and passwor');
+            header('location:cabinet.php?error=Enter login and password');
           }
         } else {
-          header('location:cabinet.php?error=Enter login and passwor');
+          header('location:cabinet.php?error=Enter login and password');
         }
   } elseif ($_POST['submit'] == "Register") {
     if(
