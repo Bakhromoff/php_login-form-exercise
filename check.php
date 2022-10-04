@@ -3,27 +3,28 @@ session_start();
 include "include/configuration.php";
 if(isset($_POST['submit'])) {
   if($_POST['submit'] == "Login"){
-    if(isset($_POST['login']) &&
-        isset($_POST['password'])){
-          if($_POST['login'] != "" && $_POST['login'] != "") {
+    if(isset($_POST['login']) && isset($_POST['password'])){
+          if($_POST['login'] != "" && $_POST['password'] != "") {
             $login = $_POST["login"];
             $password = md5(md5($_POST['password'])."012");
             $sql = "select * from users where login = '$login' and password = '$password'";
             $r = mysqli_query($con, $sql);
-            while ($row = mysqli_fetch_assoc($r)) {
-              if($row['password'] == $password) {
-                $_SESSION['user'] = $row['login'];
-                $_SESSION['fname'] = $row["fullname"];
-                header('location:cabinet.php');
-              } else {
-                header('location:cabinet.php?Incorrect login or password');
-              }
+            $user = mysqli_fetch_assoc($r);
+            if($user)
+            {
+              $_SESSION['user'] = $user['login'];
+              $_SESSION['fname'] = $user["fullname"];
+              header('location:cabinet.php');
+            }
+            else
+            {
+              header('location:index.php?error=Pssword or Login is incorrect');
             }
           } else {
-            header('location:cabinet.php?error=Enter login and password');
+            header('location:index.php?error=Enter login and password');
           }
         } else {
-          header('location:cabinet.php?error=Enter login and password');
+          header('location:index.php?error=Enter login and password');
         }
   } elseif ($_POST['submit'] == "Register") {
     if(

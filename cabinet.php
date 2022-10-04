@@ -22,9 +22,8 @@ if(!isset($_SESSION['user'])) {
 <?php
 error();
 if(isset($_GET['s'])){
-if(($_GET['s']) === "log"){
   session_destroy();
-}
+  header('location:index.php');
 }
 include "include/footer.php";
 ?>
